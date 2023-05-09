@@ -39,4 +39,13 @@ export class UserService {
     )
   }
 
+  // Login
+  Login(data: any): Observable<UserModel> {
+    return this.http.post<UserModel>(
+      this.constant.API_BASE_URL+'login', 
+      JSON.stringify(data), 
+      this.httpOptions
+    )
+  }
+
 }

@@ -94,7 +94,7 @@ export class RegisterComponent implements OnInit {
         if(data != null){
           this.msgStatus = "<p class='alert alert-success text-center'>ลงทะเบียนเรียบร้อยแล้ว</p>"
           // สั่งให้ฟอร์ม Reset
-          this.registerForm.reset();
+          this.registerForm.reset({role: ''});
           this.submitted = false;
         }else{
           this.msgStatus = "<p class='alert alert-danger text-center'>เกิดข้อผิดพลาด ไม่สามารถลงทะเบียนได้</p>"

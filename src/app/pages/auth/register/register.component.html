@@ -1,7 +1,7 @@
-<div class="container-fluid" style="margin-top:100px">
+<div class="container-fluid">
     <p class="text-center my-5"><a routerLink="" class="text-secondary text-decoration-none"><i class="fas fa-arrow-left"></i> &nbsp;กลับหน้าหลัก</a></p>
     <div class="rounded d-flex justify-content-center">
-        <div class="col-sm-12 col-md-6 col-lg-4 shadow-lg p-5">
+        <div class="col-sm-12 col-md-6 col-lg-4 shadow-lg px-5 pt-5 pb-0 mb-5">
             <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
                 <div [innerHTML]="msgStatus"></div>
                 <div class="py-4">
