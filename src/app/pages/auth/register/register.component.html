@@ -1,31 +1,60 @@
 <div class="container-fluid" style="margin-top:100px">
     <p class="text-center my-5"><a routerLink="" class="text-secondary text-decoration-none"><i class="fas fa-arrow-left"></i> &nbsp;กลับหน้าหลัก</a></p>
     <div class="rounded d-flex justify-content-center">
-        <div class="col-sm-12 col-md-6 col-lg-3 shadow-lg p-5">
-            <form action="#" method="post">
+        <div class="col-sm-12 col-md-6 col-lg-4 shadow-lg p-5">
+            <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
                 <div class="py-4">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-primary">
-                            <i class="far fa-user text-light"></i>
-                        </span>
-                        <input type="text" class="form-control" placeholder="Username">
+
+                    <div class="form-floating mb-3">
+                        <input type="text" 
+                            formControlName="fullname" 
+                            class="form-control" 
+                            placeholder="ชื่อ-สกุล" 
+                            [ngClass]="{ 'is-invalid' : submitted && f['fullname'].errors }">
+                        <label for="fullname">ชื่อ-สกุล</label>
+                        <div *ngIf="submitted && f['fullname'].errors" class="invalid-feedback">
+                            <div *ngIf="f['fullname'].errors['required']">ต้องป้อนชื่อ-สกุล</div>
+                        </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-primary">
-                            <i class="far fa-envelope text-light"></i>
-                        </span>
-                        <input type="email" class="form-control" placeholder="Email">
+
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="username" class="form-control" placeholder="ชื่อผู้ใช้">
+                        <label for="fullname">ชื่อผู้ใช้</label>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-primary">
-                            <i class="fas fa-lock text-light"></i>
-                        </span>
-                        <input type="password" class="form-control" placeholder="Password">
+
+                    <div class="form-floating mb-3">
+                        <input type="email" formControlName="email" class="form-control" placeholder="อีเมล์">
+                        <label for="fullname">อีเมล์</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" formControlName="password" class="form-control" placeholder="รหัสผ่าน">
+                        <label for="fullname">รหัสผ่าน</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" formControlName="password_confirmation" class="form-control" placeholder="ยืนยันรหัสผ่าน">
+                        <label for="fullname">ยืนยันรหัสผ่าน</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="tel" class="form-control" placeholder="เบอร์โทรศัพท์">
+                        <label for="fullname">เบอร์โทรศัพท์</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select formControlName="role" class="form-control">
+                            <option class="form-control" value="">เลือกประเภทสมาชิก</option>
+                            <option class="form-control" value="2">ทั่วไป</option>
+                            <option class="form-control" value="1">ผู้ดูแล</option>
+                        </select>
+                        <label for="fullname">เบอร์โทรศัพท์</label>
                     </div>
                     
                     <button class="btn btn-primary text-center mt-3 w-100" type="submit">
                         ลงทะเบียน
                     </button>
+                    <pre>{{ registerForm.value | json }}</pre>
                     <p class="text-center mt-5">เป็นสมาชิกอยู่แล้ว ?
                         <a routerLink="/auth/login" class="text-primary text-decoration-none">เข้าสู่ระบบ</a>
                     </p>
