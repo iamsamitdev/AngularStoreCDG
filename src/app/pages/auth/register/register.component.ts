@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+// Import UserService
+import { UserService } from './../../../services/user.service';
+
 // Form Builder
 import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl, ValidatorFn  } from '@angular/forms';
 
@@ -27,7 +30,10 @@ export class RegisterComponent implements OnInit {
   // สร้างตัวแปรไว้เก็บสถานะของการสมัครสมาชิก
   msgStatus: string = '';
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
     // Validate Form
@@ -82,11 +88,18 @@ export class RegisterComponent implements OnInit {
       return;
     }else{
       // ถ้าผ่านการ Validate ให้ทำต่อไป
-      // alert('Form Submitted Successfully!!!\n\n' + JSON.stringify(this.registerForm.value));
-      this.msgStatus = "<p class='alert alert-success text-center'>ลงทะเบียนเรียบร้อยแล้ว</p>"
-      // สั่งให้ฟอร์ม Reset
-      this.registerForm.reset();
-      this.submitted = false;
+      // ส่งข้อมูลไปบันทึกผ่าน API
+      this.userService.Register(this.registerForm.value).subscribe((data: {}) => {
+        console.log(data);
+        if(data != null){
+          this.msgStatus = "<p class='alert alert-success text-center'>ลงทะเบียนเรียบร้อยแล้ว</p>"
+          // สั่งให้ฟอร์ม Reset
+          this.registerForm.reset();
+          this.submitted = false;
+        }else{
+          this.msgStatus = "<p class='alert alert-danger text-center'>เกิดข้อผิดพลาด ไม่สามารถลงทะเบียนได้</p>"
+        }
+      })
     }
   }
 

@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, Title  } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
+// HTTP Module
+import { HttpClientModule } from '@angular/common/http';
+
 // Form Module
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -54,7 +57,8 @@ import { SidebarBackendComponent } from './shared/backend/sidebar-backend/sideba
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [Title],
   bootstrap: [AppComponent]
