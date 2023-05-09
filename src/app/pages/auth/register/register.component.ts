@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Form Builder
-import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl, ValidatorFn  } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +24,9 @@ export class RegisterComponent implements OnInit {
   // สร้างตัวแปรไว้เช็คว่ามีการ Submit Form แล้วหรือยัง
   submitted = false;
 
+  // สร้างตัวแปรไว้เก็บสถานะของการสมัครสมาชิก
+  msgStatus: string = '';
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -31,9 +34,9 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group(
       {
         fullname: ['', Validators.required],
-        username: ['', [Validators.required, Validators.minLength(6)], Validators.maxLength(20)],
+        username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)], Validators.maxLength(32)],
+        password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]],
         password_confirmation: ['', [Validators.required]],
         tel: ['', [Validators.required]],
         role: ['', [Validators.required]]
@@ -51,25 +54,40 @@ export class RegisterComponent implements OnInit {
   }
 
   // Check Password Match
-  MustMatch(controlName: string, matchingControlName: string){
-    return(formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-      if(matchingControl.errors){
-        return;
+  MustMatch(controlName: string, checkControlName: string): ValidatorFn {
+    return (controls: AbstractControl) => {
+      const control = controls.get(controlName);
+      const checkControl = controls.get(checkControlName);
+
+      if (checkControl?.errors && !checkControl.errors['matching']) {
+          return null;
       }
-      if(control.value !== matchingControl.value){
-        matchingControl.setErrors({ mustMatch: true });
-      }else{
-        matchingControl.setErrors(null);
+
+      if (control?.value !== checkControl?.value) {
+      controls.get(checkControlName)?.setErrors({ matching: true });
+          return { matching: true };
+      } else {
+          return null;
       }
     }
   }
 
   // Submit Form
   submitRegister(){
-    console.log(this.registerForm.value);
+    // console.log(this.registerForm.value);
     this.submitted = true;
+
+    // ถ้าฟอร์มไม่ผ่านการ Validate ให้ return
+    if (this.registerForm.invalid) {
+      return;
+    }else{
+      // ถ้าผ่านการ Validate ให้ทำต่อไป
+      // alert('Form Submitted Successfully!!!\n\n' + JSON.stringify(this.registerForm.value));
+      this.msgStatus = "<p class='alert alert-success text-center'>ลงทะเบียนเรียบร้อยแล้ว</p>"
+      // สั่งให้ฟอร์ม Reset
+      this.registerForm.reset();
+      this.submitted = false;
+    }
   }
 
 }

@@ -3,8 +3,8 @@
     <div class="rounded d-flex justify-content-center">
         <div class="col-sm-12 col-md-6 col-lg-4 shadow-lg p-5">
             <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+                <div [innerHTML]="msgStatus"></div>
                 <div class="py-4">
-
                     <div class="form-floating mb-3">
                         <input type="text" 
                             formControlName="fullname" 
@@ -18,43 +18,90 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" formControlName="username" class="form-control" placeholder="ชื่อผู้ใช้">
-                        <label for="fullname">ชื่อผู้ใช้</label>
+                        <input type="text" 
+                        formControlName="username" 
+                        class="form-control" 
+                        placeholder="ชื่อผู้ใช้"
+                        [ngClass]="{ 'is-invalid' : submitted && f['username'].errors }">
+                        <label for="username">ชื่อผู้ใช้</label>
+                        <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                            <div *ngIf="f['username'].errors['required']">ต้องป้อนชื่อผู้ใช้</div>
+                            <div *ngIf="f['username'].errors['minlength']">ชื่อผู้ใช้ต้องไม่น้อยกว่า 6 ตัวอักษร</div>
+                            <div *ngIf="f['username'].errors['maxlength']">ชื่อผู้ใช้ต้องไม่เกิน 20 ตัวอักษร</div>
+                        </div>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="email" formControlName="email" class="form-control" placeholder="อีเมล์">
-                        <label for="fullname">อีเมล์</label>
+                        <input type="email" 
+                        formControlName="email" 
+                        class="form-control" 
+                        placeholder="อีเมล์"
+                        [ngClass]="{ 'is-invalid' : submitted && f['email'].errors }">
+                        <label for="email">อีเมล์</label>
+                        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                            <div *ngIf="f['email'].errors['required']">ต้องป้อนอีเมล์</div>
+                            <div *ngIf="f['email'].errors['email']">ป้อนอีเมล์ไม่ถูกต้อง</div>
+                        </div>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="password" formControlName="password" class="form-control" placeholder="รหัสผ่าน">
-                        <label for="fullname">รหัสผ่าน</label>
+                        <input type="password" 
+                            formControlName="password" 
+                            class="form-control" 
+                            placeholder="รหัสผ่าน"
+                            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+                        <label for="password">รหัสผ่าน</label>
+                        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                            <div *ngIf="f['password'].errors['required']">ต้องป้อนรหัสผ่าน</div>
+                            <div *ngIf="f['password'].errors['minlength']">รหัสผ่านต้องไม่น้อยกว่า 6 ตัวอักษร</div>
+                            <div *ngIf="f['password'].errors['maxlength']">รหัสผ่านต้องไม่เกิน 32 ตัวอักษร</div>
+                        </div>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="password" formControlName="password_confirmation" class="form-control" placeholder="ยืนยันรหัสผ่าน">
-                        <label for="fullname">ยืนยันรหัสผ่าน</label>
+                        <input type="password" 
+                            formControlName="password_confirmation" 
+                            class="form-control" 
+                            placeholder="ยืนยันรหัสผ่าน"
+                            [ngClass]="{ 'is-invalid': submitted && f['password_confirmation'].errors }">
+                        <label for="password_confirmation">ยืนยันรหัสผ่าน</label>
+                        <div *ngIf="submitted && f['password_confirmation'].errors" class="invalid-feedback">
+                            <div *ngIf="f['password_confirmation'].errors['required']">ต้องป้อนรหัสผ่านยืนยัน</div>
+                            <div *ngIf="f['password_confirmation'].errors['matching']">รหัสผ่านยืนยันไม่ตรงกัน</div>
+                        </div>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" formControlName="tel" class="form-control" placeholder="เบอร์โทรศัพท์">
-                        <label for="fullname">เบอร์โทรศัพท์</label>
+                        <input type="text" 
+                        formControlName="tel" 
+                        class="form-control" 
+                        placeholder="เบอร์โทรศัพท์"
+                        [ngClass]="{ 'is-invalid': submitted && f['tel'].errors }">
+                        <label for="tel">เบอร์โทรศัพท์</label>
+                        <div *ngIf="submitted && f['tel'].errors" class="invalid-feedback">
+                            <div *ngIf="f['tel'].errors['required']">ต้องป้อนเบอร์โทรศัพท์ก่อน</div>
+                        </div>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select formControlName="role" class="form-control">
+                        <select 
+                        formControlName="role" 
+                        class="form-control" 
+                        [ngClass]="{ 'is-invalid': submitted && f['role'].errors }">
                             <option class="form-control" value="">เลือกประเภทสมาชิก</option>
                             <option class="form-control" value="2">ทั่วไป</option>
                             <option class="form-control" value="1">ผู้ดูแล</option>
                         </select>
-                        <label for="fullname">เบอร์โทรศัพท์</label>
+                        <label for="role">เลือกประเภทสมาชิก</label>
+                        <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
+                            <div *ngIf="f['role'].errors['required']">ต้องเลือกประเภทสมาชิกก่อน</div>
+                        </div>
                     </div>
                     
                     <button class="btn btn-primary text-center mt-3 w-100" type="submit">
                         ลงทะเบียน
                     </button>
-                    <pre>{{ registerForm.value | json }}</pre>
+                    <!-- <pre>{{ registerForm.value | json }}</pre> -->
                     <p class="text-center mt-5">เป็นสมาชิกอยู่แล้ว ?
                         <a routerLink="/auth/login" class="text-primary text-decoration-none">เข้าสู่ระบบ</a>
                     </p>
