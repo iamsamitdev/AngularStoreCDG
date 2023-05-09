@@ -22,6 +22,15 @@ export class LoginComponent implements OnInit {
     password: new FormControl(''),
   })
 
+  // ตัวแปรสำหรับเก็บข้อมูล User
+  userLogin = {
+    "fullname": "",
+    "email": "",
+    "username": "",
+    "role": "",
+    "token": ""
+  }
+
   // สร้างตัวแปรไว้เช็คว่ามีการ Submit Form แล้วหรือยัง
   submitted = false;
 
@@ -65,11 +74,24 @@ export class LoginComponent implements OnInit {
     } else {
       // ถ้าผ่านการ Validate ให้ทำต่อไป
       // ส่งข้อมูลไปบันทึกผ่าน API
-      this.userService.Login(this.loginForm.value).subscribe
-      ((data: {}) => {
+      this.userService.Login(this.loginForm.value).subscribe((data: any) => {
         console.log(data);
         if(data != null){
+
           this.msgStatus='<p class="alert alert-success text-center">เข้าสู่ระบบเรียบร้อย</p>'
+
+          // กำหนดค่าลงใน Local Storage
+          this.userLogin = {
+            "fullname": data.user.fullname,
+            "email": data.user.email,
+            "username": data.user.username,
+            "role": data.user.role,
+            "token": data.token
+          }
+
+          // กำหนดค่าลงใน Local Storage
+          localStorage.setItem('userLoginStorage', JSON.stringify(this.userLogin));
+
           // Navigate to Backend
           this.router.navigate(['/backend'])
 

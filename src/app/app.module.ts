@@ -8,6 +8,9 @@ import { HttpClientModule } from '@angular/common/http';
 // Form Module
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Chart JS
+import { ChartModule } from 'angular2-chartjs';
+
 // Component
 import { AppComponent } from './app.component';
 import { FrontendLayoutComponent } from './layouts/frontend-layout/frontend-layout.component';
@@ -58,7 +61,8 @@ import { SidebarBackendComponent } from './shared/backend/sidebar-backend/sideba
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartModule
   ],
   providers: [Title],
   bootstrap: [AppComponent]
