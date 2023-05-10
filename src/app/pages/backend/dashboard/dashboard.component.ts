@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-// Import Product Service
-import { ProductService } from './../../../services/product.service';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  // สร้างตัวแปรไว้เก็บข้อมูลสินค้าที่ได้จาก API
-  products: any = [];
 
   // Chart JS Data
   type = 'line';
@@ -30,15 +24,11 @@ export class DashboardComponent implements OnInit {
   };
 
   constructor(
-    private product: ProductService
+    
   ) { }
 
   ngOnInit(): void {
-    // Read All Products API
-    this.product.GetAllProducts().subscribe((data: {}) => {
-      console.log(data);
-      this.products = data;
-    })
+    
   }
 
 }

@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 // Import UserService
 import { UserService } from 'src/app/services/user.service';
 
+// Import AuthService
+import { AuthService } from '../../../services/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,13 +25,13 @@ export class LoginComponent implements OnInit {
     password: new FormControl(''),
   })
 
-  // ตัวแปรสำหรับเก็บข้อมูล User
+  // สร้างตัวแปรไว้เก็บข้อมูลผู้ใช้งานที่ Login
   userLogin = {
-    "fullname": "",
-    "email": "",
-    "username": "",
-    "role": "",
-    "token": ""
+    "fullname":"",
+    "email":"",
+    "username":"",
+    "role":"",
+    "token":""
   }
 
   // สร้างตัวแปรไว้เช็คว่ามีการ Submit Form แล้วหรือยัง
@@ -40,7 +43,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -89,8 +93,8 @@ export class LoginComponent implements OnInit {
             "token": data.token
           }
 
-          // กำหนดค่าลงใน Local Storage
-          localStorage.setItem('userLoginStorage', JSON.stringify(this.userLogin));
+          // ส่ง token ไปเก็บไว้ใน Local Storage
+          this.auth.sendToken(this.userLogin);
 
           // Navigate to Backend
           this.router.navigate(['/backend'])

@@ -17,12 +17,15 @@ import { Observable } from 'rxjs';
 })
 export class ProductService {
 
+  // Read token from local storage
+  token = localStorage.getItem("LoggedInToken")
+
   // Set header options
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer 170|JONP4AnQCcaqNccoTqoa2LgVlNDIJ7aJ9uM3y0pl'
+      'Authorization': 'Bearer '+this.token ?? ''
     })
   }
 
