@@ -79,30 +79,34 @@ export class LoginComponent implements OnInit {
       // ถ้าผ่านการ Validate ให้ทำต่อไป
       // ส่งข้อมูลไปบันทึกผ่าน API
       this.userService.Login(this.loginForm.value).subscribe((data: any) => {
-        console.log(data);
-        if(data != null){
+        // console.log(data);
 
-          this.msgStatus='<p class="alert alert-success text-center">เข้าสู่ระบบเรียบร้อย</p>'
+        this.msgStatus='<p class="alert alert-success text-center">เข้าสู่ระบบเรียบร้อย</p>'
 
-          // กำหนดค่าลงใน Local Storage
-          this.userLogin = {
-            "fullname": data.user.fullname,
-            "email": data.user.email,
-            "username": data.user.username,
-            "role": data.user.role,
-            "token": data.token
-          }
+        // กำหนดค่าลงใน Local Storage
+        this.userLogin = {
+          "fullname": data.user.fullname,
+          "email": data.user.email,
+          "username": data.user.username,
+          "role": data.user.role,
+          "token": data.token
+        }
 
-          // ส่ง token ไปเก็บไว้ใน Local Storage
-          this.auth.sendToken(this.userLogin);
+        // ส่ง token ไปเก็บไว้ใน Local Storage
+        this.auth.sendToken(this.userLogin);
 
-          // Navigate to Backend
-          this.router.navigate(['/backend'])
+        // Navigate to Backend
+        this.router.navigate(['/backend'])
 
-          // Redirect to Backend
-          // window.location.href = '/backend';
-        }else{
+        // Redirect to Backend
+        // window.location.href = '/backend';
+        
+      }, error => {
+        //  console.log(error);
+        if(error.status == 401){
           this.msgStatus='<p class="alert alert-danger text-center">มีข้อผิดพลาด ข้อมูลเข้าระบบไม่ถูกต้อง</p>'
+        }else{
+          this.msgStatus='<p class="alert alert-danger text-center">มีข้อผิดพลาดบางอย่าง</p>'
         }
       })
     }

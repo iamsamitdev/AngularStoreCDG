@@ -22,7 +22,7 @@
             Stock
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="userProfile.role == '1'">
           <a class="nav-link"
           routerLink="/backend/report"
           routerLinkActive="active">
@@ -32,7 +32,7 @@
             Report
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="userProfile.role == '1'">
           <a class="nav-link"
           routerLink="/backend/settings"
           routerLinkActive="active">
